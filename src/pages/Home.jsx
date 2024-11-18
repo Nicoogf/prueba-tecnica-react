@@ -1,28 +1,48 @@
+import { useEffect, useState } from "react";
 import Cards from "../components/Cards/Cards"
 import Filters from "../components/Filters/Filters"
 
 
 const Home = () => {
-  return (
-    <main>
-        <h1 className="text-red-500 text-center my-5 text-3xl font-semibold"> Prueba Frontend </h1>
 
-        <section className="grid grid-cols-12 bg-blue-300 w-[90%] mx-auto gap-2 ">
-            
-            <aside className="bg-blue-200 col-span-3">
-                <Filters />
-            </aside>
+    const [pageNumber, setPageNumber] = useState(1)
+    const [fetchData, setFetchData] = useState([])
+    const { info , results } = fetchData
 
-            <section className="bg-blue-200 col-span-9 grid grid-cols-12">
-                <Cards />
-                <Cards />
-                <Cards />
+    const api_url = `https://rickandmortyapi.com/api/character/?page=${pageNumber}`
+
+    useEffect(() => {
+        (async function () {
+            try {
+                let data = await fetch(api_url).then((res) => res.json());
+                setFetchData(data.results);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        })()
+    }, [api_url])
+
+
+    return (
+        <main>
+            <h1 className="text-red-500 text-center my-5 text-3xl font-semibold"> Prueba Frontend </h1>
+
+            <section className="grid grid-cols-12 bg-blue-300 w-[90%] mx-auto gap-2 ">
+
+                <aside className="bg-blue-200 col-span-3">
+                    <Filters />
+                </aside>
+
+                <section className="bg-blue-200 col-span-9 grid grid-cols-12">
+                    <Cards />
+                    <Cards />
+                    <Cards />
+                </section>
+
             </section>
 
-        </section>
-
-    </main>
-  )
+        </main>
+    )
 }
 
 export default Home
