@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Cards from "../components/Cards/Cards"
 import Filters from "../components/Filters/Filters"
+import Paginations from "../components/Paginations/Paginations";
 
 
 const Home = () => {
@@ -8,6 +9,7 @@ const Home = () => {
     const [pageNumber, setPageNumber] = useState(1)
     const [fetchData, setFetchData] = useState([])
 
+    console.log(pageNumber)
 
     const api_url = `https://rickandmortyapi.com/api/character/?page=${pageNumber}`
 
@@ -36,7 +38,10 @@ const Home = () => {
 
                 <section className="bg-blue-200 col-span-9">
                     <Cards results={fetchData}/>
+                    <Paginations setPageNumber={setPageNumber} pageNumber={pageNumber}/>
                 </section>
+
+                
 
             </section>
 
