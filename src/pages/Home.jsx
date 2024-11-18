@@ -7,19 +7,20 @@ const Home = () => {
 
     const [pageNumber, setPageNumber] = useState(1)
     const [fetchData, setFetchData] = useState([])
-    const { info , results } = fetchData
+
 
     const api_url = `https://rickandmortyapi.com/api/character/?page=${pageNumber}`
 
     useEffect(() => {
-        (async function () {
+        async function fetchCharacters(){
             try {
                 let data = await fetch(api_url).then((res) => res.json());
                 setFetchData(data.results);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
-        })()
+        }
+        fetchCharacters()
     }, [api_url])
 
 
@@ -33,10 +34,8 @@ const Home = () => {
                     <Filters />
                 </aside>
 
-                <section className="bg-blue-200 col-span-9 grid grid-cols-12">
-                    <Cards />
-                    <Cards />
-                    <Cards />
+                <section className="bg-blue-200 col-span-9">
+                    <Cards results={fetchData}/>
                 </section>
 
             </section>
